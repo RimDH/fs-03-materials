@@ -1,0 +1,61 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f0f7ff;
+    /* Light blue background */
+    margin: 0;
+}
+
+.hero-section {
+    min-height: 80vh;
+}
+
+/* Custom underline for "Favourite" */
+.text-primary.border-bottom {
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+.search-box {
+    max-width: 500px;
+}
+
+/* Background Circle behind the doctor */
+.bg-circle {
+    position: absolute;
+    bottom: -100px;
+    right: -50px;
+    width: 600px;
+    height: 600px;
+    background-color: #bcd9ff;
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.doctor-img {
+    position: relative;
+    z-index: 1;
+   
+}
+
+.stats-bar {
+    margin-top: -50px;
+    /* Slight overlap or adjustment depending on layout */
+    position: relative;
+    z-index: 10;
+}
+
+/* Navbar active state */
+.nav-link.active {
+    font-weight: 700;
+}
+
+.image-dc {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 9999;
+    text-align: right;
+    /* height: 70vh; */
+    width: 914px;
+    height: 500px;
+}
