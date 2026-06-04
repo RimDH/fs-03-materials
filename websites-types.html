@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Web Ecosystems: Anatomy, Industries & Dashboards</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=JetBrains+Mono:wght@500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #050810;
+            --bg-slide: #0a192f;
+            --accent-primary: #64ffda;
+            /* Cyan */
+            --accent-secondary: #bd93f9;
+            /* Purple */
+            --text-primary: #e6f1ff;
+            --text-secondary: #8892b0;
+            --card-inner: #112240;
+            --danger: #ff5f56;
+            --success: #64ffda;
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            overflow: hidden;
+        }
+
+        .bg-blob {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(100, 255, 218, 0.05) 0%, rgba(0, 0, 0, 0) 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .presentation {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .slide {
+            display: none;
+            width: 95%;
+            max-width: 1200px;
+            height: 85vh;
+            background: var(--bg-slide);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+        }
+
+        .slide.active {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .slide-text {
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .slide-visual {
+            padding: 40px;
+            background: var(--card-inner);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h2 {
+            color: var(--accent-primary);
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        h3 {
+            color: var(--accent-secondary);
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 1.05rem;
+        }
+
+        .visual-comp-wrapper {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .ui-mockup {
+            padding: 25px;
+            border-radius: 12px;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .tag {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            padding: 2px 12px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border-radius: 4px;
+            color: #000;
+        }
+
+        .dash-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            width: 100%;
+        }
+
+        .dash-stat {
+            background: rgba(5, 8, 16, 0.5);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+
+        .dash-stat span {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: var(--accent-primary);
+        }
+
+        /* Industry List Grid styling */
+        .industry-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .industry-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .industry-item strong {
+            color: var(--accent-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+        }
+
+        .controls {
+            position: absolute;
+            bottom: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: 1px solid var(--accent-primary);
+            color: var(--accent-primary);
+            padding: 10px 30px;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-btn:hover {
+            background: var(--accent-primary);
+            color: var(--bg-deep);
+            box-shadow: 0 0 15px rgba(100, 255, 218, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="bg-blob" style="top: -100px; left: -100px;"></div>
+    <div class="bg-blob" style="bottom: -100px; right: -100px;"></div>
+
+    <div class="presentation">
+
+        <div class="slide active">
+            <div class="slide-text">
+                <h2>The Web Ecosystem</h2>
+                <h3>Anatomy, Industries, & Dashboards</h3>
+                <p>Every digital product serves a unique purpose, yet they all share a baseline core DNA.<br><br>Let's
+                    map out the structure of modern websites, identify industry landscapes, and clarify when apps need
+                    heavy management dashboards.</p>
+            </div>
+            <div class="slide-visual">
+                <i class="fas fa-network-wired"
+                    style="font-size: 5rem; color: var(--accent-primary); text-shadow: 0 0 20px rgba(100, 255, 218, 0.4);"></i>
+                <div class="mt-4 text-center">
+                    <span class="badge rounded-pill bg-dark border border-info px-3 m-1">Anatomy</span>
+                    <span class="badge rounded-pill bg-dark border border-info px-3 m-1">Dashboards</span>
+                    <span class="badge rounded-pill bg-dark border border-info px-3 m-1">Industry Specs</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-text">
+                <h2>1. Core Architecture</h2>
+                <h3>The 5 Global Web Modules</h3>
+                <p>Regardless of the niche, 99% of professional web platforms feature these functional structural
+                    sections:</p>
+                <ul class="text-secondary small mt-2">
+                    <li><b>Header / Nav:</b> Brand identity, layout navigation links, and utilities.</li>
+                    <li><b>Hero Section:</b> The primary above-the-fold value prompt and key Call-to-Action.</li>
+                    <li><b>Main Content:</b> Grid, cards, feeds, data charts, or core written values.</li>
+                    <li><b>Sidebar:</b> Crucial for app layouts to bundle controls/tools cleanly.</li>
+                    <li><b>Footer:</b> System sitemaps, explicit terms, copyright, and credentials.</li>
+                </ul>
+            </div>
+            <div class="slide-visual">
+                <div class="visual-comp-wrapper">
+                    <div class="ui-mockup" style="background: rgba(255,255,255,0.01);">
+                        <span class="tag" style="background: var(--accent-primary)">WIRECONSTRUCT</span>
+                        <div class="d-flex justify-content-between align-items-center bg-dark p-2 mb-2 rounded border border-secondary"
+                            style="font-size:0.75rem;">
+                            <span>[Logo] Navbar</span>
+                            <div style="width:30px; height:6px; background:rgba(255,255,255,0.2);"></div>
+                        </div>
+                        <div class="d-flex gap-2 mb-2">
+                            <div class="bg-dark p-2 rounded border border-secondary text-center flex-grow-1"
+                                style="font-size:0.75rem; height:90px;">
+                                <div class="fw-bold mt-2">Hero / Main Panel</div>
+                                <div class="bg-info mx-auto mt-1" style="width:40px; height:8px; border-radius:2px;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-dark text-center p-1 rounded border border-secondary"
+                            style="font-size:0.6rem; color:var(--text-secondary);">
+                            Footer Information Modules &copy;
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-text">
+                <h2>2. Web Dashboards</h2>
+
+                <p>A standard website is optimized for <b>reading/buying</b>. A dashboard is built explicitly for
+                    <b>system administration and actions</b>.
+                </p>
+                <ul class="text-secondary small mt-2">
+                    <li><b>Data Operations:</b> Complex CRUD actions to modify databases directly.</li>
+                    <li><b>Analytics Viewports:</b> Monitoring metrics with filters, timelines, and graphs.</li>
+                    <li><b>Permission Control:</b> Secured account views specific to user privileges.</li>
+                </ul>
+            </div>
+            <div class="slide-visual">
+                <div class="visual-comp-wrapper">
+                    <div class="ui-mockup" style="border-color: var(--accent-secondary)">
+                        <span class="tag" style="background: var(--accent-secondary)">DASHBOARD LAYOUT</span>
+                        <div class="dash-grid mb-3">
+                            <div class="dash-stat"><span>2.4k</span><br><small class="text-white"
+                                    style="font-size:0.75rem;">API Hits</small></div>
+                            <div class="dash-stat"><span>99.9%</span><br><small class="text-white"
+                                    style="font-size:0.75rem;">Uptime</small></div>
+                        </div>
+                        <div class="bg-dark p-2 rounded text-center border border-secondary" style="font-size:0.8rem;">
+                            <i class="fas fa-chart-line text-info me-1"></i> Data Stream Analytics Active
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-text">
+                <h2>Type 1: Informative Platforms</h2>
+                <h3>Authority, Content, & Brand Trust</h3>
+                <p>Websites optimized primarily to answer questions, share knowledge, educate users, or convert dynamic
+                    cold traffic into hot leads.</p>
+                <p><b>Real-World Example:</b> <span class="badge bg-dark border border-info">Wikipedia</span>, <span
+                        class="badge bg-dark border border-info">Medium</span></p>
+                <ul class="text-secondary small mt-2">
+                    <li><b>Features:</b> Heavy typography layouts, layout searching, structural content blogs, and lead
+                        forms.</li>
+                    <li><b>The Dashboard Edge:</b> Marketers access a content management backend (like a CMS) to write
+                        posts and monitor traffic.</li>
+                </ul>
+            </div>
+            <div class="slide-visual">
+                <div class="visual-comp-wrapper">
+                    <div class="ui-mockup">
+                        <span class="tag" style="background: var(--accent-primary)">ARTICLE VIEW</span>
+                        <div class="bg-dark p-3 rounded border border-secondary">
+                            <div
+                                style="width: 40%; height: 12px; background: var(--accent-secondary); margin-bottom: 12px; border-radius: 2px;">
+                            </div>
+                            <div
+                                style="width: 90%; height: 8px; background: rgba(255,255,255,0.2); margin-bottom: 6px;">
+                            </div>
+                            <div
+                                style="width: 85%; height: 8px; background: rgba(255,255,255,0.2); margin-bottom: 6px;">
+                            </div>
+                            <div style="width: 60%; height: 8px; background: rgba(255,255,255,0.2);"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-text">
+                <h2>Type 2: E-Commerce</h2>
+
+                <p>Platforms designed heavily around catalogs, structural grid sorting, and seamless conversion loops.
+                </p>
+                <p><b>Real-World Example:</b> <span class="badge bg-dark border border-info">Amazon</span> or <span
+                        class="badge bg-dark border border-info">eBay</span></p>
+                <ul class="text-secondary small mt-2">
+                    <li><b>Features:</b> Shopping carts, deep catalog filtering, review systems, and secure payment
+                        pathways.</li>
+                    <li><b>The Dashboard Edge:</b> Sellers access intense order fulfillment metrics and tracking grids
+                        behind the front store.</li>
+                </ul>
+            </div>
+            <div class="slide-visual">
+                <div class="visual-comp-wrapper">
+                    <div class="ui-mockup">
+                        <span class="tag" style="background: var(--accent-primary)">STORE GRID</span>
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <div class="bg-dark p-2 rounded text-center border border-secondary">
+                                    <div style="height:40px; background:rgba(255,255,255,0.05);" class="rounded mb-1">
+                                    </div>
+                                    <span style="font-size:0.8rem; display:block;">Product A</span>
+                                    <strong style="color:var(--accent-primary); font-size:0.85rem;">$29.99</strong>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="bg-dark p-2 rounded text-center border border-secondary">
+                                    <div style="height:40px; background:rgba(255,255,255,0.05);" class="rounded mb-1">
+                                    </div>
+                                    <span style="font-size:0.8rem; display:block;">Product B</span>
+                                    <strong style="color:var(--accent-primary); font-size:0.85rem;">$49.99</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-text">
+                <h2>Type 3: SaaS Platforms</h2>
+                <h3>Cloud Software Utilities</h3>
+                <p>Websites running full software directly inside the window view. The landing site sells the app, while
+                    the auth system unlocks it.</p>
+                <p><b>Real-World Example:</b> <span class="badge bg-dark border border-info">Notion</span> or <span
+                        class="badge bg-dark border border-info">Shopify</span></p>
+                <ul class="text-secondary small mt-2">
+                    <li><b>Features:</b> Workspace tracking, team collaboration features, workspaces, settings profiles.
+                    </li>
+                    <li><b>The Dashboard Edge:</b> The entire core application area <i>is</i> an intensive,
+                        control-heavy dashboard.</li>
+                </ul>
+            </div>
+            <div class="slide-visual">
+                <div class="visual-comp-wrapper">
+                    <div class="ui-mockup">
+                        <span class="tag" style="background: var(--accent-secondary)">SAAS PANEL</span>
+                        <div class="d-flex align-items-center bg-dark p-2 rounded border border-secondary mb-2">
+                            <i class="fas fa-tasks text-warning me-2"></i>
+                            <div style="width:60%; height:8px; background:rgba(255,255,255,0.2); border-radius:4px;">
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center bg-dark p-2 rounded border border-secondary">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <div style="width:40%; height:8px; background:rgba(255,255,255,0.2); border-radius:4px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-text">
+                <h2>Type 4: Media Platforms</h2>
+                <h3>Consumption & Dynamic Feeds</h3>
+                <p>Platforms structurally designed to manage streaming channels, heavy text matrices, or fast asset
+                    loading loops.</p>
+                <p><b>Real-World Example:</b> <span class="badge bg-dark border border-info">Netflix</span> or <span
+                        class="badge bg-dark border border-info">YouTube</span></p>
+                <ul class="text-secondary small mt-2">
+                    <li><b>Features:</b> Adaptive media players, deep asset tag classification, high-speed CDNs.</li>
+                    <li><b>The Dashboard Edge:</b> Creators use analytical studio panels to manage streaming tracking
+                        logs and view duration curves.</li>
+                </ul>
+            </div>
+            <div class="slide-visual">
+                <div class="visual-comp-wrapper">
+                    <div class="ui-mockup">
+                        <span class="tag" style="background: var(--accent-primary)">MEDIA CARD</span>
+                        <div class="bg-dark rounded p-2 border border-secondary text-center">
+                            <div class="position-relative d-flex align-items-center justify-content-center rounded"
+                                style="height:90px; background:rgba(255,255,255,0.05);">
+                                <i class="fas fa-play-circle text-info" style="font-size:2rem;"></i>
+                            </div>
+                            <div class="text-start mt-2">
+                                <div style="width:70%; height:8px; background:white; margin-bottom:4px;"></div>
+                                <div style="width:40%; height:6px; background:var(--text-secondary);"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-text">
+                <h2>Type 5: Social Spaces</h2>
+                <h3>User-Generated Networks</h3>
+                <p>Architectures engineered for live engagement loops, immediate notification pipes, and rendering
+                    user-generated data feeds.</p>
+                <p><b>Real-World Example:</b> <span class="badge bg-dark border border-info">LinkedIn</span> or <span
+                        class="badge bg-dark border border-info">Reddit</span></p>
+                <ul class="text-secondary small mt-2">
+                    <li><b>Features:</b> Real-time websocket messaging networks, infinite feed streams, engagement
+                        actions.</li>
+                    <li><b>The Dashboard Edge:</b> Users access profile impression graphs, growth trackers, and
+                        ad-campaign backends.</li>
+                </ul>
+            </div>
+            <div class="slide-visual">
+                <div class="visual-comp-wrapper">
+                    <div class="ui-mockup">
+                        <span class="tag" style="background: var(--accent-secondary)">LIVE ENGAGEMENT</span>
+                        <div class="bg-dark p-2 rounded border border-secondary">
+                            <div class="d-flex align-items-center mb-2">
+                                <div style="width:24px; height:24px; background:var(--accent-primary); border-radius:50%;"
+                                    class="me-2"></div>
+                                <div style="width:30%; height:6px; background:rgba(255,255,255,0.3);"></div>
+                            </div>
+                            <div style="height:35px; background:rgba(255,255,255,0.02); border-radius:4px;"
+                                class="mb-2"></div>
+                            <div class="d-flex gap-3 text-secondary" style="font-size:0.8rem;">
+                                <span><i class="fas fa-thumbs-up text-info"></i> Like</span>
+                                <span><i class="fas fa-comment"></i> Reply</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="controls">
+            <button class="nav-btn" onclick="move(-1)">Prev</button>
+            <button class="nav-btn" onclick="move(1)">Next</button>
+        </div>
+
+    </div>
+
+    <script>
+        let cur = 0;
+        const slides = document.querySelectorAll('.slide');
+
+        function move(d) {
+            document.querySelectorAll('.reveal-box').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.reveal-trigger').forEach(el => el.innerText = 'Reveal Strategic Logic');
+
+            slides[cur].classList.remove('active');
+            cur = (cur + d + slides.length) % slides.length;
+            slides[cur].classList.add('active');
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "ArrowRight") move(1);
+            if (e.key === "ArrowLeft") move(-1);
+        });
+    </script>
+
+</body>
+
+</html>
