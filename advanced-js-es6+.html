@@ -232,7 +232,7 @@
         <header>
             <h1>Advanced JS <span>ES6+</span></h1>
             <p style="font-size:1.2rem; opacity:0.9; max-width:620px;">
-                The honest, no-nonsense checklist of JavaScript skills you actually need before touching React, Vue, or
+                Checklist of JavaScript skills you actually need before touching React, Vue, or
                 modern frameworks.
             </p>
         </header>
@@ -275,18 +275,32 @@ const makeUserObject = username => ({ id: "123", name: username });</code></pre>
             <h2>3. Destructuring + Rest / Spread</h2>
             <p>Data in frameworks is passed around inside large objects. Destructuring is like an extraction tool that
                 pulls out exactly what you want in a single line of code.</p>
-            <pre><code>const activeProfile = {
-    username: "Mia",
-    age: 20,
-    email: "mia@example.com",
-    role: "admin"
+            <pre><code>
+const user = {
+  name: "John",
+  age: 25,
+  country: "USA"
 };
 
-<span class="comment">// Instead of typing activeProfile.username and activeProfile.age everywhere:</span>
-const { username, age, ...everythingElse } = activeProfile;
+// Destructuring
+const { name, ...restInfo } = user;
 
-console.log(username); <span class="comment">// Prints: "Mia"</span>
-console.log(everythingElse); <span class="comment">// Prints an object containing just email and role</span>
+// Spread
+const updatedUser = {
+  ...user,
+  job: "Developer"
+};
+
+// Rest (function parameters)
+function printInfo(...args) {
+  console.log(args);
+}
+
+printInfo("John", 25, "Developer");
+
+console.log(name);        // John
+console.log(restInfo);    // { age: 25, country: "USA" }
+console.log(updatedUser); // { name: "John", age: 25, country: "USA", job: "Developer" }
 
 </code></pre>
         </section>
@@ -341,26 +355,66 @@ const resultsWithNullish = userScore ?? 10; <span class="comment">// Returns 0 (
         </section>
 
         <section id="async">
-            <h2>7. Clean Async / Await & Error Handling</h2>
-            <p>Fetching files and data from foreign API networks shouldn't make your code unreadable. We use
-                <code>async/await</code> to make asynchronous network requests read exactly like normal, step-by-step
-                code.
+            <h2>7. Async / Await and Promises</h2>
+
+            <p>
+                When you use <code>fetch()</code> or any API call, JavaScript does not get the result immediately.
+                Instead, it returns a <strong>Promise</strong> (an object that represents a value that will be
+                available later)
             </p>
-            <pre><code><span class="keyword">async function</span> <span class="func">loadUserData</span>(userId) {
-    <span class="keyword">try</span> {
-        const response = <span class="keyword">await</span> fetch(`/api/users/${userId}`);
-        
-        <span class="comment">// Never assume a network call worked! Check it manually:</span>
-        <span class="keyword">if</span> (!response.ok) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="type">Error</span>(`Oops! Server returned code: ${response.status}`);
-        
-        const cleanJSON = <span class="keyword">await</span> response.json();
-        <span class="keyword">return</span> cleanJSON;
-    } <span class="keyword">catch</span> (error) {
-        <span class="comment">// If the user has no internet, this catch block handles the error gracefully instead of crashing</span>
-        console.error("Safely caught an issue here:", error);
-        <span class="keyword">throw</span> error; 
+
+            <p>
+                A Promise has 3 states:
+                <br>
+                • <strong>Pending</strong> → still working<br>
+                • <strong>Fulfilled</strong> → success (data received)<br>
+                • <strong>Rejected</strong> → failed (error occurred)
+            </p>
+
+            <p>
+                <code>async/await</code> is just a clean way to work with Promises (do not block the rest of the code
+                while waiting)
+            </p>
+
+            <pre><code>
+async function loadUserData(userId) {
+    try {
+        // fetch() returns a Promise
+        const response = await fetch(`/api/users/${userId}`);
+
+        // check if Promise result is successful
+        if (!response.ok) {
+            throw new Error(`Request failed with status: ${response.status}`);
+        }
+
+        // another Promise (parsing JSON)
+        const data = await response.json(); //{"name":"John","age":25}
+
+        return data;
+    } catch (error) {
+        console.error("Error caught while handling Promise:", error);
+        throw error;
     }
-}</code></pre>
+}
+
+//another example
+console.log("A");
+
+async function test() {
+  console.log("B");
+  const response = await fetch("/api");
+  console.log("C");
+}
+
+test();
+
+console.log("D");
+    </code></pre>
+
+            <p>
+                Key idea: <strong>Promises represent future results, and async/await lets you write them like normal
+                    step-by-step code.</strong>
+            </p>
         </section>
 
         <section id="modules">
