@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Basics: Installation, Folder Structure, Props & Hooks</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #ec4899;
+            --bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.78);
+            --text: #f1f5f9;
+            --accent: #22d3ee;
+            --react-blue: #61dafb;
+            --code-bg: #0d1117;
+            --warning: #f87171;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: radial-gradient(circle at top left, #1e1b4b, #0f172a);
+            color: var(--text);
+            line-height: 1.65;
+        }
+
+        nav {
+            width: 280px;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.96);
+            padding: 2.5rem 1.8rem;
+            position: fixed;
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            overflow-y: auto;
+        }
+
+        nav h2 {
+            font-size: 1rem;
+            letter-spacing: 1.8px;
+            margin-bottom: 2.2rem;
+            color: var(--accent);
+            opacity: 0.85;
+        }
+
+        nav a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.97rem;
+            display: block;
+            padding: 0.7rem 0;
+            transition: all 0.22s;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+            padding-left: 8px;
+        }
+
+        main {
+            margin-left: 280px;
+            padding: 5rem 4rem;
+            max-width: 1180px;
+        }
+
+        header {
+            margin-bottom: 6rem;
+            padding-left: 2.2rem;
+            border-left: 6px solid var(--react-blue);
+        }
+
+        h1 {
+            font-size: 3.4rem;
+            margin-bottom: 0.8rem;
+        }
+
+        h1 span {
+            color: var(--secondary);
+        }
+
+        section {
+            background: var(--card-bg);
+            backdrop-filter: blur(14px);
+            padding: 3.2rem;
+            border-radius: 1.6rem;
+            margin-bottom: 5rem;
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
+        }
+
+        h2 {
+            font-size: 2.4rem;
+            color: var(--react-blue);
+            margin-bottom: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        h3 {
+            color: var(--primary);
+            font-size: 1.55rem;
+            margin: 2.4rem 0 1.2rem;
+            border-left: 4px solid var(--primary);
+            padding-left: 14px;
+        }
+
+        ol,
+        ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .warning,
+        .takeaway,
+        .tip {
+            padding: 1.1rem 1.4rem;
+            border-radius: 10px;
+            margin: 1.4rem 0;
+            font-size: 0.96rem;
+        }
+
+        .warning {
+            background: rgba(248, 113, 113, 0.12);
+            border-left: 4px solid var(--warning);
+        }
+
+        .takeaway {
+            background: rgba(34, 211, 238, 0.14);
+            border-left: 4px solid var(--accent);
+        }
+
+        .tip {
+            background: rgba(236, 72, 153, 0.12);
+            border-left: 4px solid var(--secondary);
+        }
+
+        pre {
+            background: var(--code-bg);
+            padding: 1.6rem;
+            border-radius: 1rem;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            margin: 1.4rem 0;
+        }
+
+        .comment {
+            color: #64748b;
+            font-style: italic;
+        }
+
+        .keyword {
+            color: #f472b6;
+        }
+
+        .type {
+            color: #3178c6;
+        }
+
+        .string {
+            color: #4ade80;
+        }
+
+        .func {
+            color: #fbbf24;
+        }
+
+        .visual-example {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 1rem;
+            text-align: center;
+        }
+
+        .visual-example .box {
+            display: inline-block;
+            padding: 1rem;
+            background: var(--primary);
+            color: var(--text);
+            border-radius: 0.5rem;
+            margin: 0.5rem;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 960px) {
+            nav {
+                display: none;
+            }
+
+            main {
+                margin-left: 0;
+                padding: 3rem 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <h2>TOPICS</h2>
+        <ul>
+            <li><a href="#intro">1. Welcome to React</a></li>
+            <li><a href="#installation">2. Setup with Vite</a></li>
+            <li><a href="#structure">3. Folder Structure</a></li>
+            <li><a href="#props">4. Component Props</a></li>
+            <li><a href="#usestate">5. useState Hook</a></li>
+            <li><a href="#useeffect">6. useEffect Hook</a></li>
+            <li><a href="#router">7. React Router v7</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <header>
+            <h1>React Core</h1>
+            <p style="font-size:1.2rem; opacity:0.9; max-width:620px;">
+                A clean, friendly introduction to modern React development using JavaScript and Vite.
+            </p>
+        </header>
+
+        <section id="intro">
+            <h2>1. Welcome to React!</h2>
+            <p>React is a JavaScript library used to build user interfaces. Instead of writing massive HTML files, React
+                allows you to split your website into small, reusable building blocks called
+                <strong>Components</strong>.
+            </p>
+
+            <h3>What is a Component?</h3>
+            <p>Think of a component as a custom HTML element. For example, a navigation bar, a button, or a profile card
+                can all be separate components written in JavaScript using a special syntax called <strong>JSX</strong>
+                (JavaScript XML), which allows you to write HTML directly inside your JavaScript code.</p>
+
+            <div class="tip">
+                💡 <strong>Core Rule:</strong> Every React component function <em>must</em> start with a capital letter
+                (e.g., <code>App()</code>, <code>Button()</code>, <code>UserProfile()</code>) and return some JSX.
+            </div>
+        </section>
+
+        <section id="installation">
+            <h2>2. Setting Up with Vite</h2>
+            <p>Vite is a modern, ultra-fast tool that sets up a development environment for your React app. Gone are the
+                days of waiting minutes for a server to load!</p>
+
+            <h3>Step-by-Step Installation</h3>
+            <ol>
+                <li><strong>Install Node.js:</strong> Download and install the LTS version from <a
+                        href="https://nodejs.org/" target="_blank" style="color: var(--accent);">nodejs.org</a>. This
+                    gives you access to the command line tool <code>npm</code>.</li>
+                <li><strong>Open Your Terminal:</strong> Open VS Code and open a new terminal (<code>Ctrl + `</code> or
+                    <code>Cmd + `</code>).
+                </li>
+                <li><strong>Run the Setup Command:</strong> Run the following command to create your project:
+                    <pre><code>npm create vite@latest my-first-react-app -- --template react</code></pre>
+                </li>
+                <li><strong>Navigate inside your project folder:</strong>
+                    <pre><code>cd my-first-react-app</code></pre>
+                </li>
+                <li><strong>Install dependencies:</strong> Downloads the actual React files into your folder.
+                    <pre><code>npm install</code></pre>
+                </li>
+                <li><strong>Start the local server:</strong>
+                    <pre><code>npm run dev</code></pre>
+                </li>
+            </ol>
+
+            <div class="takeaway">
+                👉 After running <code>npm run dev</code>, look at your terminal. It will give you a local URL (usually
+                <code>http://localhost:5173</code>). Open that in your browser to see your brand-new React application
+                running live!
+            </div>
+        </section>
+
+        <section id="structure">
+            <h2>3. Understanding the Folder Structure 📁</h2>
+            <p>When you open your new project in VS Code, you'll see a collection of files and folders. Let’s break down
+                what they mean so you know exactly where to work.</p>
+
+            <pre><code>my-first-react-app/
+├── node_modules/       <span class="comment">// Hidden giant folder holding downloaded project packages</span>
+├── public/             <span class="comment">// Static assets like images or icons that don't change</span>
+├── src/                <span class="comment">// THE MAIN KITCHEN: Where 99% of your coding happens!</span>
+│   ├── assets/         <span class="comment">// Images, fonts, and logos used inside your components</span>
+│   ├── App.css         <span class="comment">// Global styles specifically for the App component</span>
+│   ├── App.jsx         <span class="comment">// Your primary Root component (the core structure of your site)</span>
+│   ├── index.css       <span class="comment">// Global stylesheet for your entire website</span>
+│   └── main.jsx        <span class="comment">// The entry point connecting React to the real HTML page</span>
+├── index.html          <span class="comment">// The single real HTML page your app mounts into</span>
+├── package.json        <span class="comment">// List of your project dependencies and scripts</span>
+└── vite.config.js      <span class="comment">// Configurations for Vite</span></code></pre>
+
+            <h3>The Golden Rule of Vite & React:</h3>
+            <ul>
+                <li><strong><code>src/main.jsx</code></strong> is the engine. It finds the
+                    <code>&lt;div id="root"&gt;&lt;/div&gt;</code> in your <code>index.html</code> and injects your
+                    React code right into it. You rarely need to touch this file.
+                </li>
+                <li><strong><code>src/App.jsx</code></strong> is your sandbox. This is where you will start adding text,
+                    buttons, routing, and creating your custom components!</li>
+            </ul>
+        </section>
+
+        <section id="props">
+            <h2>4. Props in React </h2>
+            <p>Props (short for "properties") are read-only data passed from a parent component down to a child
+                component. They make your components dynamic and reusable.</p>
+
+            <h3>Key Concepts</h3>
+            <ul>
+                <li>Props are <strong>read-only (immutable)</strong>. A child component can never change the props it
+                    receives.</li>
+                <li>They look just like HTML attributes when passing them into a component.</li>
+                <li>We extract them inside the child component using JavaScript object destructuring.</li>
+            </ul>
+
+            <h3>Code Example: Greeting Component (App.jsx)</h3>
+            <pre><code><span class="comment">// 1. Define the Child Component</span>
+<span class="keyword">function</span> <span class="func">Greeting</span>({ name, age = 18 }) {
+  <span class="keyword">return</span> (
+    &lt;p&gt;Hello, &lt;strong&gt;{name}&lt;/strong&gt;! You are {age} years old.&lt;/p&gt;
+  );
+}
+
+<span class="comment">// 2. Use it inside the Parent Component</span>
+<span class="keyword">function</span> <span class="func">App</span>() {
+  <span class="keyword">return</span> (
+    &lt;div&gt;
+      &lt;<span class="type">Greeting</span> name=<span class="string">"Alice"</span> age={25} /&gt;
+      &lt;<span class="type">Greeting</span> name=<span class="string">"Bob"</span> /&gt; <span class="comment">// Falls back to default age: 18</span>
+    &lt;/div&gt;
+  );
+}</code></pre>
+
+            <h3>Passing Elements as Props (Using children)</h3>
+            <p>If you want to wrap a component around content, use the built-in <code>children</code> prop.</p>
+            <pre><code><span class="keyword">function</span> <span class="func">Card</span>({ title, children }) {
+  <span class="keyword">return</span> (
+    &lt;div style={{ border: <span class="string">'1px solid #ccc'</span>, padding: <span class="string">'1.5rem'</span> }}&gt;
+      &lt;h3&gt;{title}&lt;/h3&gt;
+      {children}
+    &lt;/div&gt;
+  );
+}
+
+<span class="comment">// Usage</span>
+&lt;<span class="type">Card</span> title=<span class="string">"User Profile"</span>&gt;
+  &lt;p&gt;This text goes right into the children prop!&lt;/p&gt;
+&lt;/<span class="type">Card</span>&gt;</code></pre>
+
+            <div class="visual-example">
+                <p>Prop Directional Flow</p>
+                <div class="box">Parent Component</div> → passes data → <div class="box">Child Component (read-only)
+                </div>
+            </div>
+
+            <div class="warning">
+                ⚠️ <strong>Warning:</strong> Never try to modify a prop inside a child component. If you need data that
+                changes over time, you need <strong>State</strong>!
+            </div>
+        </section>
+
+        <section id="usestate">
+            <h2>5. The useState Hook </h2>
+            <p>State represents data that can change over time based on user interactions (like typing in an input,
+                opening a modal, or clicking a counter button). When state changes, React automatically re-renders the
+                component to show the updated data on the screen.</p>
+
+            <h3>Syntax Breakdown</h3>
+            <p>We use the <code>useState</code> function provided by React. It returns an array with exactly two
+                elements:</p>
+            <ul>
+                <li><strong>The current state variable:</strong> The value itself.</li>
+                <li><strong>The setter function:</strong> A function used to update that value.</li>
+            </ul>
+
+            <pre><code><span class="keyword">import</span> { useState } <span class="keyword">from</span> <span class="string">'react'</span>;
+
+<span class="keyword">function</span> <span class="func">Counter</span>() {
+  <span class="comment">// Declare state variable "count", starting at 0</span>
+  <span class="keyword">const</span> [count, setCount] = <span class="func">useState</span>(0);
+
+  <span class="keyword">return</span> (
+    &lt;div&gt;
+      &lt;p&gt;Current Count: {count}&lt;/p&gt;
+      <span class="comment">// Always update state using the setter function!</span>
+      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
+        Increment
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+
+            <div class="visual-example">
+                <p>State Interaction</p>
+                <div class="box">State: 0</div> → User clicks button → <div class="box">State: 1 (UI auto-updates)</div>
+            </div>
+        </section>
+
+        <section id="useeffect">
+            <h2>6. The useEffect Hook</h2>
+            <p>The <code>useEffect</code> hook lets you synchronize your component with external systems. Think of it as
+                a way to perform "side effects" like fetching data from an API, setting up a timer, or manually changing
+                the browser document title.</p>
+
+            <h3>The Dependency Array</h3>
+            <p>The second argument passed to <code>useEffect</code> is an array <code>[]</code> that controls when the
+                effect code runs:</p>
+            <ul>
+                <li><code>[id]</code>: Runs once when the component loads, and then re-runs <em>only</em> if the value
+                    of <code>id</code> changes.</li>
+                <li><code>[]</code> (Empty array): Runs **only once** when the component first renders on screen.</li>
+                <li>No array at all: Runs on *every single render* (avoid this as it can cause performance issues).</li>
+            </ul>
+
+            <pre><code><span class="keyword">import</span> { useState, useEffect } <span class="keyword">from</span> <span class="string">'react'</span>;
+
+<span class="keyword">function</span> <span class="func">UserProfile</span>({ userId }) {
+  <span class="keyword">const</span> [user, setUser] = <span class="func">useState</span>(null);
+
+  <span class="func">useEffect</span>(() =&gt; {
+    <span class="keyword">const</span> <span class="func">fetchData</span> = <span class="keyword">async</span> () =&gt; {
+      <span class="keyword">const</span> res = <span class="keyword">await</span> <span class="func">fetch</span>(`https://jsonplaceholder.typicode.com/users/${userId}`);
+      <span class="keyword">const</span> data = <span class="keyword">await</span> res.<span class="func">json</span>();
+      setUser(data); <span class="comment">// Save fetched data to local state</span>
+    };
+
+    <span class="func">fetchData</span>();
+  }, [userId]); <span class="comment">// Re-run the fetch request if userId ever changes</span>
+
+  <span class="keyword">if</span> (!user) <span class="keyword">return</span> &lt;p&gt;Loading user profile...&lt;/p&gt;;
+
+  <span class="keyword">return</span> &lt;h1&gt;Welcome back, {user.name}!&lt;/h1&gt;;
+}</code></pre>
+        </section>
+
+        <section id="router">
+            <h2>7. Client-Side Routing (React Router v7) 🗺️</h2>
+            <p>React builds Single Page Applications (SPAs). This means your browser never completely reloads a new HTML
+                page from the server when clicking navigation links. Instead, <strong>React Router</strong> instantly
+                swaps components on screen depending on the URL path.</p>
+
+            <h3>How to Setup React Router</h3>
+            <ol>
+                <li>Install the package in your project terminal:
+                    <pre><code>npm install react-router-dom</code></pre>
+                </li>
+                <li>Wrap your app in the router provider inside your entry point file (<code>src/main.jsx</code>).</li>
+            </ol>
+
+            <h3>Step 1: Wire up main.jsx</h3>
+            <pre><code><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;
+<span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">'react-dom/client'</span>;
+<span class="keyword">import</span> { BrowserRouter } <span class="keyword">from</span> <span class="string">'react-router-dom'</span>;
+<span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">'./App.jsx'</span>;
+<span class="keyword">import</span> <span class="string">'./index.css'</span>;
+
+ReactDOM.<span class="func">createRoot</span>(document.<span class="func">getElementById</span>(<span class="string">'root'</span>)).<span class="func">render</span>(
+  &lt;React.StrictMode&gt;
+    &lt;<span class="type">BrowserRouter</span>&gt;
+      &lt;<span class="type">App</span> /&gt;
+    &lt;/<span class="type">BrowserRouter</span>&gt;
+  &lt;/React.StrictMode&gt;
+);</code></pre>
+
+            <h3>Step 2: Create Routes & Links inside App.jsx</h3>
+            <p>Use <code>&lt;Routes&gt;</code> and <code>&lt;Route&gt;</code> to control what loads, and use
+                <code>&lt;Link&gt;</code> instead of traditional <code>&lt;a href&gt;</code> tags to maintain
+                zero-reload page navigation.
+            </p>
+
+            <pre><code><span class="keyword">import</span> { Routes, Route, Link } <span class="keyword">from</span> <span class="string">'react-router-dom'</span>;
+
+<span class="comment">// Dummy page components for demonstration</span>
+<span class="keyword">const</span> <span class="func">Home</span> = () =&gt; &lt;h2&gt;Home Dashboard&lt;/h2&gt;;
+<span class="keyword">const</span> <span class="func">About</span> = () =&gt; &lt;h2&gt;About Our Application&lt;/h2&gt;;
+
+<span class="keyword">function</span> <span class="func">App</span>() {
+  <span class="keyword">return</span> (
+    &lt;div&gt;
+      &lt;nav&gt;
+        &lt;<span class="type">Link</span> to=<span class="string">"/"</span>&gt;Home&lt;/<span class="type">Link</span>&gt; | 
+        &lt;<span class="type">Link</span> to=<span class="string">"/about"</span>&gt;About&lt;/<span class="type">Link</span>&gt;
+      &lt;/nav&gt;
+
+      &lt;hr /&gt;
+
+      &lt;<span class="type">Routes</span>&gt;
+        &lt;<span class="type">Route</span> path=<span class="string">"/"</span> element={&lt;<span class="type">Home</span> /&gt;} /&gt;
+        &lt;<span class="type">Route</span> path=<span class="string">"/about"</span> element={&lt;<span class="type">About</span> /&gt;} /&gt;
+      &lt;/<span class="type">Routes</span>&gt;
+    &lt;/div&gt;
+  );
+}
+
+<span class="keyword">export</span> <span class="keyword">default</span> App;</code></pre>
+
+            <div class="visual-example">
+                <p>Routing Logic</p>
+                <div class="box">URL: "/"</div> → renders <div class="box">Home Component</div><br><br>
+                <div class="box">URL: "/about"</div> → renders <div class="box">About Component</div>
+            </div>
+        </section>
+    </main>
+
+</body>
+
+</html>
